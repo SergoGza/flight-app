@@ -1,0 +1,30 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, beans
+
+  endpoint:
+    health:
+      enabled: false
+
+spring:
+  datasource:
+    url: jdbc:mariadb://localhost:3306/flights
+    username: root
+    password: dbpw
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+
+
+  application:
+    store:
+      base-path: C:\Users\sergi\IntelliJProjects\flight-app-working-files
+
+#logging:
+#  level:
+#    org.hibernate.SQL: debug
+#    org.hibernate.orm.jdbc.bind: trace

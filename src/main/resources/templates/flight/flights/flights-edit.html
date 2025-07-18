@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+
+<!--/* @thymesVar id="airports" type="java.util.List<com.tokioschool.flightapp.flight.dto.AirportDTO>" */-->
+<!--/* @thymesVar id="flight" type="com.tokioschool.flightapp.flight.mvc.dto.FlightMvcDTO" */-->
+
+<head th:replace="~{flight/fragments/head :: header(title = 'Flight App - Edit Flight')}"></head>
+
+<body>
+
+<nav th:replace="~{flight/fragments/nav :: nav}"></nav>
+
+<div class="container">
+
+    <div class="row py-3">
+        <h1 class="border-bottom">Flight</h1>
+    </div>
+
+    <div class="row py-2">
+        <div class="col-md-8">
+            <form class="row" th:action="@{/flight/flights-edit/{id}(id=${flight.id})}"
+                  th:object="${flight}"
+                  method="post"
+                  enctype="multipart/form-data">
+                <input type="hidden" th:value="*{id}" name="id" id="id">
+                <div class="mb-3 row">
+                    <label for="number" class="col-md-2 col-form-label">Number</label>
+                    <div class="col-md-5">
+                        <input type="text" class="form-control"
+                               id="number" name="number" th:value="*{number}">
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label for="departure" class="col-md-2 col-form-label">Departure</label>
+                    <div class="col-md-5">
+                        <select class="form-select"
+                                aria-label="Departure from" id="departure" name="departure">
+                            <option value="">Departure from</option>
+                            <option th:selected="${flight.departure != null && flight.departure == airport.acronym}"
+                                    th:each="airport: ${airports}" th:value="${airport.acronym}"
+                                    th:text="${airport.acronym} + ' (' + ${airport.name} + ')'"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="arrival" class="col-md-2 col-form-label">Arrival</label>
+                    <div class="col-md-5">
+                        <select class="form-select"
+                                aria-label="Arrival to" id="arrival" name="arrival">
+                            <option value="">Arrival to</option>
+                            <option th:selected="${flight.arrival != null && flight.arrival == airport.acronym}"
+                                    th:each="airport: ${airports}" th:value="${airport.acronym}"
+                                    th:text="${airport.acronym} + ' (' + ${airport.name} + ')'"></option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label for="dayTime" class="col-md-2 col-form-label">Departure day</label>
+                    <div class="col-md-5">
+                        <input type="text" class="form-control"
+                               id="dayTime" name="dayTime"
+                               th:value="*{#temporals.format(dayTime, 'dd-MM-yyyy HH:mm')}">
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label for="" class="col-md-2 col-form-label">Status</label>
+                    <div class="col-md-5">
+                        <div class="form-check"
+                             th:each="status: ${T(com.tokioschool.flightapp.flight.domain.FlightStatus).values()}">
+                            <input class="form-check-input"
+                                   type="radio" name="status" th:id="${status.name()}"
+                                   th:checked="${flight.status != null && flight.status == status.name()}"
+                                   th:value="${status.name()}">
+                            <label class="form-check-label" th:for="${status.name()}"
+                                   th:text="${status.name()}"></label>
+                            <div class="invalid-feedback"
+                                 th:if="${#fields.hasErrors('status') && statusStat.last}"
+                                 th:errors="*{status}"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label for="capacity" class="col-md-2 col-form-label">Capacity</label>
+                    <div class="col-md-2">
+                        <input type="text" class="form-control"
+                               id="capacity" name="capacity"
+                               th:value="*{capacity}">
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label for="image" class="col-md-2 col-form-label">Image</label>
+                    <div class="col-md-5">
+                        <input class="form-control" type="file" id="image" name="image">
+                    </div>
+                </div>
+
+                <div class="offset-md-2">
+                    <button class="btn btn-primary" type="submit">Send</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-md-4">
+
+            <!-- La imagen cuando la tengamos -->
+
+        </div>
+    </div>
+</div>
+<div th:insert="~{flight/fragments/scripts}"></div>
+</body>
+</html>
+

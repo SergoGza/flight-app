@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org">
+
+<!--/* @thymesVar id ="flights" type="java.util.List<com.tokioschool.flightapp.flight.dto.FlightDTO>" */-->
+
+<head th:replace="~{flight/fragments/head :: header(title = 'Flight App - Flights')}"></head>
+
+<body>
+
+<nav th:replace="~{flight/fragments/nav :: nav}"></nav>
+
+<div class="container">
+
+    <div class="row py-5">
+        <h1 class="border-bottom">Flights</h1>
+    </div>
+
+    <div class="album py-5">
+        <div class="container">
+            <div class="row py-5 row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                <div class="col" th:each="flight : ${flights}">
+                    <div class="card shadow-sm">
+
+                        <img th:if="${flight.image == null}" class="img-fluid"
+                             th:src="@{/images/flight-default.jpg}"/>
+
+                        <div class="card-body">
+                            <p class="card-text"><strong th:text="${flight.number}"></strong></p>
+
+                            <p class="card-text">
+                                <span th:text="${flight.departureAcronym}"></span>
+                                <span>&nbsp;-&nbsp;</span>
+                                <span th:text="${flight.arrivalAcronym}"></span>
+                            </p>
+
+                            <p class="card-text">
+                                <span th:text="${#temporals.format(flight.departureTime, 'dd-MM-yyyy HH:mm')}"></span>
+                            </p>
+
+                            <p class="card-text">
+                                <span th:text="${flight.occupancy}"></span>/<span th:text="${flight.capacity}"></span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div th:replace="~{flight/fragments/scripts}"></div>
+
+</body>
+</html>
