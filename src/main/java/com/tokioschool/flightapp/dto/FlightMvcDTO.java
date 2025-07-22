@@ -1,7 +1,14 @@
 package com.tokioschool.flightapp.dto;
 
 import java.time.LocalDateTime;
+
+import com.tokioschool.flightapp.core.validator.EnumValid;
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Getter
 @Setter
@@ -11,10 +18,20 @@ import lombok.*;
 public class FlightMvcDTO {
 
   private Long id;
-  private String number;
-  private String departure;
-  private String arrival;
+  @NotBlank private String number;
+
+  @NotBlank private String departure;
+  @NotBlank private String arrival;
+
+  @NotNull
+  @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm")
   private LocalDateTime dayTime;
+
+  @EnumValid(target = FlightDTO.Status.class, required = true)
   private String status;
+
+  @NotNull
+  @Positive
+  @Digits(fraction = 0, integer = 3)
   private Integer capacity;
 }

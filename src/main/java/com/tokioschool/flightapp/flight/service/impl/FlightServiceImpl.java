@@ -75,8 +75,9 @@ public class FlightServiceImpl implements FlightService {
     Airport arrival = getAirport(flightMvcDTO.getArrival());
 
     FlightImage flightImage = flight.getImage();
-    if (multipartFile.isEmpty()) {
+    if (!multipartFile.isEmpty()) {
       flightImage = flightImageService.saveImage(multipartFile);
+      flightImage.setFlight(flight);
     }
 
     flight.setCapacity(flightMvcDTO.getCapacity());

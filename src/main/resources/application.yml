@@ -19,10 +19,14 @@ spring:
       ddl-auto: validate
     open-in-view: false
 
+  servlet:
+    multipart:
+      max-file-size: 2MB
 
-  application:
-    store:
-      base-path: C:\Users\sergi\IntelliJProjects\flight-app-working-files
+
+application:
+  store:
+    base-path: C:\Users\sergi\IntelliJProjects\flight-app-working-files
 
 #logging:
 #  level:

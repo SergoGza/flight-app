@@ -24,6 +24,8 @@
 
                         <img th:if="${flight.image == null}" class="img-fluid"
                              th:src="@{/images/flight-default.jpg}"/>
+                        <img th:if="${flight.image != null}" class="img-fluid"
+                             th:src="@{/flight/resources/{resourceId}(resourceId=${flight.image.resourceId})}"/>
 
                         <div class="card-body">
                             <p class="card-text"><strong th:text="${flight.number}"></strong></p>
@@ -41,14 +43,22 @@
                             <p class="card-text">
                                 <span th:text="${flight.occupancy}"></span>/<span th:text="${flight.capacity}"></span>
                             </p>
+
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <a th:href="@{/flight/flights-edit/{flightId}(flightId=${flight.id})}"
+                                       class="btn btn-sm btn-outline-secundary"> Edit </a>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 </div>
+
 
 <div th:replace="~{flight/fragments/scripts}"></div>
 

@@ -3,6 +3,7 @@
 
 <!--/* @thymesVar id="airports" type="java.util.List<com.tokioschool.flightapp.flight.dto.AirportDTO>" */-->
 <!--/* @thymesVar id="flight" type="com.tokioschool.flightapp.flight.mvc.dto.FlightMvcDTO" */-->
+<!--/* @thymesVar id = "flightImageResourceId" type = java.util.UUID */-->
 
 <head th:replace="~{flight/fragments/head :: header(title = 'Flight App - Edit Flight')}"></head>
 
@@ -107,9 +108,18 @@
 
         <div class="col-md-4">
 
-            <!-- La imagen cuando la tengamos -->
+            <div class="col-md-12">
+                <img class="img-fluid" th:if="${flightImageResourceId != null}"
+                     th:src="@{/flight/resources/{resourceId}(resourceId=${flightImageResourceId})}"/>
+            </div>
+            <div class="col-md-12">
+                <a th:if="${flightImageResourceId != null}"
+                   th:href="@{/flight/downloads/{resourceId}(resourceId=${flightImageResourceId})}">Download</a>
+            </div>
 
         </div>
+
+
     </div>
 </div>
 <div th:insert="~{flight/fragments/scripts}"></div>

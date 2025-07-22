@@ -3,10 +3,13 @@ package com.tokioschool.flightapp.flight.mvc.controller;
 import com.tokioschool.flightapp.dto.AirportDTO;
 import com.tokioschool.flightapp.dto.FlightDTO;
 import com.tokioschool.flightapp.dto.FlightMvcDTO;
+import com.tokioschool.flightapp.dto.ResourceDTO;
 import com.tokioschool.flightapp.flight.service.AirportService;
 import com.tokioschool.flightapp.flight.service.FlightService;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
@@ -80,10 +83,19 @@ public class FlightMvcController {
       FlightMvcDTO flightMvcDTO, @Nullable FlightDTO flightDTO, Model model) {
 
     List<AirportDTO> airports = airportService.getAirports();
+
+    UUID imageId = Optional.ofNullable(flightDTO)
+            .map(FlightDTO::getImage)
+            .map(ResourceDTO::getResourceId)
+            .orElse(null);
+
+
     ModelAndView modelAndView = new ModelAndView();
     modelAndView.addAllObjects(model.asMap());
     modelAndView.addObject("flight", flightMvcDTO);
     modelAndView.addObject("airports", airports);
+    modelAndView.addObject("flightImageResourceId", imageId);
+
 
     return modelAndView;
   }
