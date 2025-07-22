@@ -10,10 +10,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -67,14 +69,29 @@ public class FlightMvcController {
   }
 
   @PostMapping({"/flight/flights-edit", "/flight/flights-edit/", "/flight/flights-edit/{flightId}"})
-  public RedirectView createOrEditFlightPost(
-      @ModelAttribute("flight") FlightMvcDTO flightMvcDTO,
-      @RequestParam("image") MultipartFile multipartFile,
-      @PathVariable(name = "flightId", required = false) Long flightId,
-      Model model) {
+  public Object createOrEditFlightPost(
+          @Valid @ModelAttribute("flight") FlightMvcDTO flightMvcDTO,
+          BindingResult bindingResult,
+          @RequestParam("image") MultipartFile multipartFile,
+          @PathVariable(name = "flightId", required = false) Long flightId,
+          Model model) {
+
+    // Si hay errores de validación, volver a mostrar el formulario con los errores
+    if (bindingResult.hasErrors()) {
+      FlightDTO flightDTO = null;
+      if (flightMvcDTO.getId() != null) {
+        flightDTO = flightService.getFlight(flightMvcDTO.getId());
+      }
+
+      ModelAndView modelAndView = populateCreateOrEditFlightModel(flightMvcDTO, flightDTO, model);
+      modelAndView.setViewName("flight/flights/flights-edit");
+      return modelAndView;
+    }
+
+    // Si no hay errores, procesar el formulario
     Optional.ofNullable(flightMvcDTO.getId())
-        .map(o -> flightService.editFlight(flightMvcDTO, multipartFile))
-        .orElseGet(() -> flightService.createFlight(flightMvcDTO, multipartFile));
+            .map(o -> flightService.editFlight(flightMvcDTO, multipartFile))
+            .orElseGet(() -> flightService.createFlight(flightMvcDTO, multipartFile));
 
     return new RedirectView("/flight/flights");
   }
