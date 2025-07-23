@@ -31,17 +31,17 @@ public class FlightServiceImpl implements FlightService {
   public List<FlightDTO> getFlights() {
 
     return flightDAO.findAll().stream()
-        .map(flight -> modelMapper.map(flight, FlightDTO.class))
-        .toList();
+            .map(flight -> modelMapper.map(flight, FlightDTO.class))
+            .toList();
   }
 
   @Override
   public FlightDTO getFlight(Long flightId) {
     return flightDAO
-        .findById(flightId)
-        .map(flight -> modelMapper.map(flight, FlightDTO.class))
-        .orElseThrow(
-            () -> new IllegalArgumentException("Flight with id:%s not found".formatted(flightId)));
+            .findById(flightId)
+            .map(flight -> modelMapper.map(flight, FlightDTO.class))
+            .orElseThrow(
+                    () -> new IllegalArgumentException("Flight with id:%s not found".formatted(flightId)));
   }
 
   @Override
@@ -57,19 +57,19 @@ public class FlightServiceImpl implements FlightService {
   public FlightDTO editFlight(FlightMvcDTO flightMvcDTO, @Nullable MultipartFile multipartFile) {
 
     Flight flight =
-        flightDAO
-            .findById(flightMvcDTO.getId())
-            .orElseThrow(
-                () ->
-                    new IllegalArgumentException(
-                        "Flight with id:%s not found".formatted(flightMvcDTO.getId())));
+            flightDAO
+                    .findById(flightMvcDTO.getId())
+                    .orElseThrow(
+                            () ->
+                                    new IllegalArgumentException(
+                                            "Flight with id:%s not found".formatted(flightMvcDTO.getId())));
 
     flight = createOrEdit(flight, flightMvcDTO, multipartFile);
     return modelMapper.map(flight, FlightDTO.class);
   }
 
   protected Flight createOrEdit(
-      Flight flight, FlightMvcDTO flightMvcDTO, MultipartFile multipartFile) {
+          Flight flight, FlightMvcDTO flightMvcDTO, MultipartFile multipartFile) {
 
     Airport departure = getAirport(flightMvcDTO.getDeparture());
     Airport arrival = getAirport(flightMvcDTO.getArrival());
@@ -93,8 +93,8 @@ public class FlightServiceImpl implements FlightService {
 
   protected Airport getAirport(String acronym) {
     return airportDAO
-        .findByAcronym(acronym)
-        .orElseThrow(
-            () -> new IllegalArgumentException("Airport with acronym:%s".formatted(acronym)));
+            .findByAcronym(acronym)
+            .orElseThrow(
+                    () -> new IllegalArgumentException("Airport with acronym: %s not found".formatted(acronym)));
   }
 }

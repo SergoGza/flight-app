@@ -18,20 +18,25 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class FlightMvcDTO {
 
   private Long id;
-  @NotBlank private String number;
 
-  @NotBlank private String departure;
-  @NotBlank private String arrival;
+  @NotBlank(message = "no debe estar vacío")
+  private String number;
 
-  @NotNull
+  @NotBlank(message = "no debe estar vacío")
+  private String departure;
+
+  @NotBlank(message = "no debe estar vacío")
+  private String arrival;
+
+  @NotNull(message = "no debe ser nulo")
   @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm")
   private LocalDateTime dayTime;
 
-  @EnumValid(target = FlightDTO.Status.class, required = true)
+  @EnumValid(target = FlightDTO.Status.class, required = true, message = "debe seleccionar un estado válido")
   private String status;
 
-  @NotNull
-  @Positive
-  @Digits(fraction = 0, integer = 3)
+  @NotNull(message = "no debe ser nulo")
+  @Positive(message = "debe ser mayor que 0")
+  @Digits(fraction = 0, integer = 3, message = "debe ser un número entero de máximo 3 dígitos")
   private Integer capacity;
 }

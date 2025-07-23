@@ -14,8 +14,9 @@ public class EnumValidImpl implements ConstraintValidator<EnumValid, String> {
   @Override
   public void initialize(EnumValid constraintAnnotation) {
     Enum<?>[] enumConstants = constraintAnnotation.target().getEnumConstants();
-    List<String> entries = Arrays.stream(enumConstants).map(Enum::toString).toList();
-    required = constraintAnnotation.required();
+    // CORRECCIÓN: Asignar el resultado a la variable de instancia 'entries'
+    this.entries = Arrays.stream(enumConstants).map(Enum::toString).toList();
+    this.required = constraintAnnotation.required();
   }
 
   @Override
@@ -25,6 +26,12 @@ public class EnumValidImpl implements ConstraintValidator<EnumValid, String> {
     if (!required && trimmed == null) {
       return true;
     }
+
+    // Si es requerido y está vacío, no es válido
+    if (required && trimmed == null) {
+      return false;
+    }
+
     return entries.contains(trimmed);
   }
 }

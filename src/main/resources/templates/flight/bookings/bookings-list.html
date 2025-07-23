@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org">
+
+<!--/* @thymesVar id="bookings" type="java.util.List<com.tokioschool.flightapp.flight.domain.FlightBooking>" */-->
+
+<head th:replace="~{flight/fragments/head :: header(title = 'Flight App - Bookings')}"></head>
+
+<body>
+
+<nav th:replace="~{flight/fragments/nav :: nav}"></nav>
+
+<div class="container">
+
+    <div class="row py-5">
+        <h1 class="border-bottom">Reservas</h1>
+    </div>
+
+    <!-- Mensajes de éxito/error -->
+    <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <span th:text="${successMessage}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <span th:text="${errorMessage}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Localizador</th>
+                    <th>Vuelo</th>
+                    <th>Ruta</th>
+                    <th>Pasajero</th>
+                    <th>Fecha Reserva</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="booking : ${bookings}">
+                    <td>
+                        <a th:href="@{/flight/bookings/{locator}(locator=${booking.locator})}"
+                           th:text="${booking.locator}"></a>
+                    </td>
+                    <td th:text="${booking.flight.number}"></td>
+                    <td>
+                        <span th:text="${booking.flight.departure.acronym}"></span>
+                        →
+                        <span th:text="${booking.flight.arrival.acronym}"></span>
+                    </td>
+                    <td th:text="${booking.user.name + ' ' + booking.user.surname}"></td>
+                    <td th:text="${#temporals.format(booking.created, 'dd-MM-yyyy HH:mm')}"></td>
+                    <td>
+                        <form th:action="@{/flight/bookings/cancel/{id}(id=${booking.id})}"
+                              method="post"
+                              class="d-inline"
+                              onsubmit="return confirm('¿Está seguro de cancelar esta reserva?');">
+                            <button type="submit" class="btn btn-sm btn-danger">Cancelar</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div th:if="${#lists.isEmpty(bookings)}" class="text-center py-5">
+                <p class="text-muted">No hay reservas disponibles</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{flight/fragments/scripts}"></div>
+
+</body>
+</html>

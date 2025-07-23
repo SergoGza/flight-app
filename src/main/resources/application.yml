@@ -24,6 +24,14 @@ spring:
       max-file-size: 2MB
 
 
+  messages:
+    basename: messages/messages
+    use-code-as-default-message: true
+
+
+
+
+
 application:
   store:
     base-path: C:\Users\sergi\IntelliJProjects\flight-app-working-files
