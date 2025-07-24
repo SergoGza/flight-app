@@ -24,13 +24,10 @@ spring:
       max-file-size: 2MB
 
 
-  messages:
-    basename: messages/messages
-    use-code-as-default-message: true
-
-
-
-
+#  messages:
+#    basename: messages/messages
+#    use-code-as-default-message: true
+#    fallback-to-system-locale: false  # Añade esta línea
 
 application:
   store:

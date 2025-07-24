@@ -19,24 +19,24 @@ public class FlightMvcDTO {
 
   private Long id;
 
-  @NotBlank(message = "no debe estar vacío")
+  @NotBlank
   private String number;
 
-  @NotBlank(message = "no debe estar vacío")
+  @NotBlank
   private String departure;
 
-  @NotBlank(message = "no debe estar vacío")
+  @NotBlank
   private String arrival;
 
-  @NotNull(message = "no debe ser nulo")
+  @NotNull
   @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm")
   private LocalDateTime dayTime;
 
-  @EnumValid(target = FlightDTO.Status.class, required = true, message = "debe seleccionar un estado válido")
+  @EnumValid(target = FlightDTO.Status.class, required = true, message = "{validation.flight.status.invalid}")
   private String status;
 
   @NotNull(message = "no debe ser nulo")
   @Positive(message = "debe ser mayor que 0")
-  @Digits(fraction = 0, integer = 3, message = "debe ser un número entero de máximo 3 dígitos")
+  @Digits(fraction = 0, integer = 3)
   private Integer capacity;
 }

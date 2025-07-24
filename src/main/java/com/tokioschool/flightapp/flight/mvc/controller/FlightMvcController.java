@@ -6,9 +6,8 @@ import com.tokioschool.flightapp.dto.FlightMvcDTO;
 import com.tokioschool.flightapp.dto.ResourceDTO;
 import com.tokioschool.flightapp.flight.service.AirportService;
 import com.tokioschool.flightapp.flight.service.FlightService;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+
+import java.util.*;
 
 import com.tokioschool.flightapp.flight.validator.FlightMvcDTOValidator;
 import jakarta.validation.Valid;
@@ -152,4 +151,5 @@ public class FlightMvcController {
 
     return modelAndView;
   }
+
 }
