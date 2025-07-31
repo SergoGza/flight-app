@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+
+<!--/* @thymesVar id="error" type="com.tokioschool.flightapp.flight.dto.ErrorDTO" */-->
+
+<head th:replace="~{flight/fragments/head :: header('Flight App')}"></head>
+
+<body>
+
+<nav th:replace="~{flight/fragments/nav :: nav}"></nav>
+
+<div class="container">
+    <div class="row py-5 mb-3">
+        <h1 class="border-bottom">Ooops, an error has occurred</h1>
+    </div>
+
+    <div class="row py-5">
+        <dl>
+            <dt>Request URL:</dt>
+            <dd th:text="${error.getUrl()}">url</dd>
+            <dt>Exception message:</dt>
+            <dd th:text="${error.getException()}">exception</dd>
+        </dl>
+    </div>
+
+</div>
+<div th:insert="~{flight/fragments/scripts}"></div>
+</body>
+</html>

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="https://www.thymeleaf.org">
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 
 <!--/* @thymesVar id ="flights" type="java.util.List<com.tokioschool.flightapp.flight.dto.FlightDTO>" */-->
 
@@ -47,9 +48,10 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
                                     <a th:href="@{/flight/flights-edit/{flightId}(flightId=${flight.id})}"
-                                       class="btn btn-sm btn-outline-secundary"> Edit </a>
+                                       sec:authorize="hasRole('ADMIN')"
+                                       class="btn btn-sm btn-outline-secondary"> Edit </a>
                                     <a th:href="@{/flight/bookings-add/{flightId}(flightId=${flight.id})}"
-                                       class="btn btn-sm btn-outline-secundary"> Book </a>
+                                       class="btn btn-sm btn-outline-secondary"> Book </a>
 
 
                                 </div>

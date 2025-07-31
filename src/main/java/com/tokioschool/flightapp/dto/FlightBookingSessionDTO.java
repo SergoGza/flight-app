@@ -13,5 +13,5 @@ import java.util.Set;
 public class FlightBookingSessionDTO {
 
   private Long currentFlightId;
-  private Set<Long> discaredFlightIds = new HashSet<>();
+  private Set<Long> discardedFlightIds = new HashSet<>();
 }

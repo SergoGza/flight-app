@@ -37,7 +37,8 @@
                                class="form-control"
                                th:classappend="${#fields.hasErrors('number')} ? 'is-invalid'"
                                id="number" name="number" th:value="*{number}">
-                        <div class="invalid-feedback" th:if="${#fields.hasErrors('number')}" th:errors="*{number}"></div>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('number')}"
+                             th:errors="*{number}"></div>
                     </div>
                 </div>
 
@@ -52,7 +53,8 @@
                                     th:each="airport: ${airports}" th:value="${airport.acronym}"
                                     th:text="${airport.acronym} + ' (' + ${airport.name} + ')'"></option>
                         </select>
-                        <div class="invalid-feedback" th:if="${#fields.hasErrors('departure')}" th:errors="*{departure}"></div>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('departure')}"
+                             th:errors="*{departure}"></div>
                     </div>
                 </div>
 
@@ -67,7 +69,8 @@
                                     th:each="airport: ${airports}" th:value="${airport.acronym}"
                                     th:text="${airport.acronym} + ' (' + ${airport.name} + ')'"></option>
                         </select>
-                        <div class="invalid-feedback" th:if="${#fields.hasErrors('arrival')}" th:errors="*{arrival}"></div>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('arrival')}"
+                             th:errors="*{arrival}"></div>
                     </div>
                 </div>
 
@@ -79,7 +82,8 @@
                                th:classappend="${#fields.hasErrors('dayTime')} ? 'is-invalid'"
                                id="dayTime" name="dayTime"
                                th:value="*{#temporals.format(dayTime, 'dd-MM-yyyy HH:mm')}">
-                        <div class="invalid-feedback" th:if="${#fields.hasErrors('dayTime')}" th:errors="*{dayTime}"></div>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('dayTime')}"
+                             th:errors="*{dayTime}"></div>
                     </div>
                 </div>
 
@@ -110,7 +114,8 @@
                                th:classappend="${#fields.hasErrors('capacity')} ? 'is-invalid'"
                                id="capacity" name="capacity"
                                th:value="*{capacity}">
-                        <div class="invalid-feedback" th:if="${#fields.hasErrors('capacity')}" th:errors="*{capacity}"></div>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('capacity')}"
+                             th:errors="*{capacity}"></div>
                     </div>
                 </div>
 

@@ -3,7 +3,6 @@ management:
     web:
       exposure:
         include: health, beans
-
   endpoint:
     health:
       enabled: false
@@ -18,20 +17,42 @@ spring:
     hibernate:
       ddl-auto: validate
     open-in-view: false
-
   servlet:
     multipart:
       max-file-size: 2MB
+    session:
+      tracking-modes: COOKIE
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: sergiogza0@gmail.com
+    password: tquqwupgyltuhuqt
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 
 #  messages:
 #    basename: messages/messages
 #    use-code-as-default-message: true
-#    fallback-to-system-locale: false  # Añade esta línea
+#    fallback-to-system-locale: false
+
+  application:
+    name: flightapp
 
 application:
   store:
     base-path: C:\Users\sergi\IntelliJProjects\flight-app-working-files
+
+
+
+
+logging:
+  file:
+    path: C:\Users\sergi\IntelliJProjects
 
 #logging:
 #  level:

@@ -16,14 +16,10 @@ public class IndexMvcController {
           return "flight/index";
       }
 
-//  @Autowired private MessageSource messageSource;
-//
-//  @GetMapping
-//  public String getIndex(Locale locale) {
-//    // Pon un breakpoint aquí
-//    String message = messageSource.getMessage("flight.nav.flights", null, locale);
-//    System.out.println("Locale actual: " + locale);
-//    System.out.println("Mensaje: " + message);
-//    return "flight/index";
-//  }
+
+      @GetMapping("/my-error")
+    public String getError() {
+          throw new RuntimeException("This an error");
+      }
+
 }

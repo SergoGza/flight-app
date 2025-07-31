@@ -3,6 +3,7 @@ package com.tokioschool.flightapp.flight.service.impl;
 import com.tokioschool.flightapp.dto.FlightBookingDTO;
 import com.tokioschool.flightapp.dto.FlightBookingSessionDTO;
 import com.tokioschool.flightapp.dto.FlightDTO;
+import com.tokioschool.flightapp.dto.UserDTO;
 import com.tokioschool.flightapp.flight.service.FlightBookingService;
 import com.tokioschool.flightapp.flight.service.FlightBookingSessionService;
 import com.tokioschool.flightapp.flight.service.FlightService;
@@ -12,15 +13,19 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+import com.tokioschool.flightapp.flight.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class FlightBookingSessionServiceImpl implements FlightBookingSessionService {
 
-  private FlightService flightService;
-  private FlightBookingService flightBookingService;
+  private final FlightService flightService;
+  private final FlightBookingService flightBookingService;
+  private final UserService userService;
 
   @Override
   public void addFlightId(Long flightId, FlightBookingSessionDTO flightBookingSessionDTO) {
@@ -29,11 +34,11 @@ public class FlightBookingSessionServiceImpl implements FlightBookingSessionServ
 
     Optional.ofNullable(flightBookingSessionDTO.getCurrentFlightId())
         .ifPresent(
-            discaredFlightId ->
-                flightBookingSessionDTO.getDiscaredFlightIds().add(discaredFlightId));
+            discardedFlightId ->
+                flightBookingSessionDTO.getDiscardedFlightIds().add(discardedFlightId));
 
     flightBookingSessionDTO.setCurrentFlightId(flightDTO.getId());
-    flightBookingSessionDTO.getDiscaredFlightIds().remove(flightDTO.getId());
+    flightBookingSessionDTO.getDiscardedFlightIds().remove(flightDTO.getId());
   }
 
   @Override
@@ -41,13 +46,21 @@ public class FlightBookingSessionServiceImpl implements FlightBookingSessionServ
       FlightBookingSessionDTO flightBookingSessionDTO) {
 
     FlightDTO flightDTO = flightService.getFlight(flightBookingSessionDTO.getCurrentFlightId());
-    return flightBookingService.bookFlight(flightDTO.getId(), "0AYZF78722501");
+
+    String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+    UserDTO userDTO = userService
+            .findByEmail(username)
+            .orElseThrow(
+                    () -> new IllegalArgumentException("User with email:%s not found".formatted(username)));
+
+    return flightBookingService.bookFlight(flightDTO.getId(), userDTO.getId());
   }
 
   @Override
   public Map<Long, FlightDTO> getFlightsById(FlightBookingSessionDTO flightBookingSessionDTO) {
 
-    Set<Long> flightsIds = new HashSet<>(flightBookingSessionDTO.getDiscaredFlightIds());
+    Set<Long> flightsIds = new HashSet<>(flightBookingSessionDTO.getDiscardedFlightIds());
     Optional.ofNullable(flightBookingSessionDTO.getCurrentFlightId()).ifPresent(flightsIds::add);
 
     Map<Long, FlightDTO> flightMap = flightService.getFlightsById(flightsIds);
