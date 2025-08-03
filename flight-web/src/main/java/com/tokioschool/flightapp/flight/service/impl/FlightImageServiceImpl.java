@@ -3,9 +3,9 @@ package com.tokioschool.flightapp.flight.service.impl;
 import com.tokioschool.flightapp.dto.FlightImageResourceDTO;
 import com.tokioschool.flightapp.flight.domain.FlightImage;
 import com.tokioschool.flightapp.flight.service.FlightImageService;
+import com.tokioschool.flightapp.store.StoreFacade;
 import com.tokioschool.flightapp.store.dto.ResourceContentDTO;
 import com.tokioschool.flightapp.store.dto.ResourceIdDTO;
-import com.tokioschool.flightapp.store.service.StoreService;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,13 +15,13 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 public class FlightImageServiceImpl implements FlightImageService {
 
-  private final StoreService storeService;
+  private final StoreFacade storeFacade;
 
   @Override
   public FlightImage saveImage(MultipartFile multipartFile) {
 
     ResourceIdDTO resourceIdDTO =
-        storeService
+        storeFacade
             .saveResource(multipartFile, "flight-app")
             .orElseThrow(() -> new IllegalStateException("Resource not saved in store"));
 
@@ -37,7 +37,7 @@ public class FlightImageServiceImpl implements FlightImageService {
   public FlightImageResourceDTO getImage(UUID resourceId) {
 
     ResourceContentDTO resourceContentDTO =
-        storeService
+        storeFacade
             .findResource(resourceId)
             .orElseThrow(() -> new IllegalStateException("Resource not found in store"));
 
@@ -52,6 +52,6 @@ public class FlightImageServiceImpl implements FlightImageService {
   @Override
   public void deleteImage(UUID resourceId) {
 
-    storeService.deleteResource(resourceId);
+    storeFacade.deleteResource(resourceId);
   }
 }

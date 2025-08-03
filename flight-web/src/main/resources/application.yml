@@ -43,6 +43,10 @@ spring:
   application:
     name: flightapp
 
+application:
+  store:
+    base-url: http://localhost:8081
+
 logging:
   file:
     path: C:\Users\sergi\IntelliJProjects

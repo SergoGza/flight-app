@@ -16,10 +16,10 @@ public interface FlightService {
 
   FlightDTO getFlight(Long flightId);
 
-  @PreAuthorize(value = "hasAnyAuthority('ADMIN')")
+  @PreAuthorize(value = "hasRole('ADMIN')")
   FlightDTO createFlight(FlightMvcDTO flightMvcDTO, @Nullable MultipartFile multipartFile);
 
-  @PreAuthorize(value = "hasAnyAuthority('ADMIN')")
+  @PreAuthorize(value = "hasRole('ADMIN')")
   FlightDTO editFlight(FlightMvcDTO flightMvcDTO, @Nullable MultipartFile multipartFile);
 
     Map<Long, FlightDTO> getFlightsById(Set<Long> flightsIds);

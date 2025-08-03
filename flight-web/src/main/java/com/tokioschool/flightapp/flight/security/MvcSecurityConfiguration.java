@@ -23,7 +23,7 @@ public class MvcSecurityConfiguration {
                     .requestMatchers("/login", "/logout", "/flight/my-error")
                     .permitAll()
                         .requestMatchers("/flight/flights-edit", "/flight/flights-edit/**")
-                        .hasAuthority("ADMIN")
+                        .hasRole("ADMIN")
                     .requestMatchers("/flight/**")
                     .authenticated())
             .formLogin(

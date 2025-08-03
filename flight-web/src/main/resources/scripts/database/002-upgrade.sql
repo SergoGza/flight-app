@@ -29,8 +29,8 @@ values ('0AYZF78722501', now(), 'user-name', 'user-surname', 'user@bla.com',
         '$2a$12$nl9E09h9DJs0aWxdPZlVr.rfCVeN.LFiKNBTRnRzQiCZuzGd7JQpe'); -- pwd: admin
 
 insert into roles (name)
-values ('USER'),
-       ('ADMIN');
+values ('ROLE_USER'),
+       ('ROLE_ADMIN');
 
 insert into users_with_roles (user_id, role_id)
 values ((select users.id from users where email = 'user@bla.com'), (select roles.id from roles where name = 'USER')),

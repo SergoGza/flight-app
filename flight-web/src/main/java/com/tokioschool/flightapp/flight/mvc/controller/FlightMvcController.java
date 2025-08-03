@@ -49,7 +49,7 @@ public class FlightMvcController {
     return modelAndView;
   }
 
-  @GetMapping({"/flight/flights-edit", "/flight/flights-edit/{flightId}"})
+  @GetMapping({"/flight/flights-edit", "/flight/flights-edit/", "/flight/flights-edit/{flightId}"})
   public ModelAndView createOrEditFlight(
       @PathVariable(name = "flightId", required = false) Long flightId, Model model) {
 
