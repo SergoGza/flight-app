@@ -89,7 +89,7 @@ public class StoreFacadeImpl implements StoreFacade {
       ResourceContentDTO resourceContentDTO =
           restClient
               .get()
-              .uri("/store/api/resources/{resouyrceId}", resourceid)
+              .uri("/store/api/resources/{resourceId}", resourceid)
               .retrieve()
               .body(ResourceContentDTO.class);
 
@@ -110,5 +110,12 @@ public class StoreFacadeImpl implements StoreFacade {
   }
 
   @Override
-  public void deleteResource(UUID resourceID) {}
+  public void deleteResource(UUID resourceID) {
+
+    restClient
+        .delete()
+        .uri("/store/api/resources/{resourceId}", resourceID)
+        .retrieve()
+        .toBodilessEntity();
+  }
 }

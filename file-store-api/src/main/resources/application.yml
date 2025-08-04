@@ -13,10 +13,30 @@ management:
 spring:
   application:
     name: file-store-api
+  servlet:
+    multipart:
+      max-file-size: 10MB
+
+
+springdoc:
+  packages-to-scan:
+    com.tokioschool.flightapp.store
+
 
 application:
+  jwt:
+    secret: RxmgLW5HLjX9vpXHZwwgUlEEf3fs5fBC
+    duration: PT1H
   store:
     base-path: C:\Users\sergi\IntelliJProjects\flight-app-working-files
+    users:
+      - username: consumer
+        # password = "password"
+        password: "{bcrypt}$2a$10$GRLdNijSQMUvl/au9ofL.eDwmoohzzS7.rmNSJZ.0FxO/BTk76klW"
+        authorities: read-resource
+      - username: producer
+        password: "{bcrypt}$2a$10$GRLdNijSQMUvl/au9ofL.eDwmoohzzS7.rmNSJZ.0FxO/BTk76klW"
+        authorities: read-resource, write-resource
 
 logging:
   file:

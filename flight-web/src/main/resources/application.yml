@@ -19,7 +19,7 @@ spring:
     open-in-view: false
   servlet:
     multipart:
-      max-file-size: 2MB
+      max-file-size: 10MB
     session:
       tracking-modes: COOKIE
   mail:

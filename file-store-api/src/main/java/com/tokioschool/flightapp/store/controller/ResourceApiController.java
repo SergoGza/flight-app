@@ -7,6 +7,12 @@ import com.tokioschool.flightapp.store.dto.ResourceCreateRequestDTO;
 import com.tokioschool.flightapp.store.dto.ResourceIdDTO;
 import com.tokioschool.flightapp.store.service.StoreService;
 import java.util.UUID;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,9 +25,17 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 @RequestMapping("/store/api/resources")
 @Validated
+@Tag(name = "resources", description = "resource operations")
 public class ResourceApiController {
   private final StoreService storeService;
 
+  @Operation(
+      summary = "Get resource by resourceId",
+      responses =
+          @ApiResponse(
+              responseCode = "200",
+              description = "resource",
+              content = @Content(schema = @Schema(implementation = ResourceContentDTO.class))))
   @GetMapping("/{resourceId}")
   public ResponseEntity<ResourceContentDTO> getResourceContent(
       @PathVariable("resourceId") UUID resourceId) {

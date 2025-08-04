@@ -1,14 +1,16 @@
 package com.tokioschool.flightapp.store.dto;
 
-import java.util.UUID;
 import lombok.Builder;
 import lombok.Value;
 import lombok.extern.jackson.Jacksonized;
 
+import java.util.List;
+
 @Value
 @Builder
 @Jacksonized
-public class ResourceIdDTO {
+public class AuthenticatedMeResponseDTO {
 
-  UUID resourceId;
+    String username;
+    List<String> authorities;
 }
