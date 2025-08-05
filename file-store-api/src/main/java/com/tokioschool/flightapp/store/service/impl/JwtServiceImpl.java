@@ -7,10 +7,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
 import org.springframework.security.oauth2.jwt.*;
+import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 
 @RequiredArgsConstructor
+@Service
 public class JwtServiceImpl implements JwtService {
 
   private final JwtConfigurationProperties jwtConfigurationProperties;
