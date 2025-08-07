@@ -22,7 +22,6 @@ springdoc:
   packages-to-scan:
     com.tokioschool.flightapp.store
 
-
 application:
   jwt:
     secret: RxmgLW5HLjX9vpXHZwwgUlEEf3fs5fBC

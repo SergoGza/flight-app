@@ -22,9 +22,10 @@ public class AuthServiceImpl implements AuthService {
   private String accessToken;
   private long expiresAt;
 
+
   @Nullable
   @Override
-  public String getAccesToken() {
+  public synchronized String getAccesToken() {
 
     if (System.currentTimeMillis() < expiresAt) {
       return accessToken;
@@ -34,7 +35,7 @@ public class AuthServiceImpl implements AuthService {
         Map.of(
             "username",
             storeConfigurationProperties.username(),
-            "passowrd",
+            "password",
             storeConfigurationProperties.password());
 
     try {

@@ -4,6 +4,7 @@ import com.tokioschool.flightapp.store.dto.AuthenticatedMeResponseDTO;
 import com.tokioschool.flightapp.store.dto.AuthenticationRequestDTO;
 import com.tokioschool.flightapp.store.dto.AuthenticationResponseDTO;
 import com.tokioschool.flightapp.store.service.AuthenticationService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,8 @@ public class AuthenticationApiController {
   }
 
   @GetMapping("/me")
-    public ResponseEntity<AuthenticatedMeResponseDTO> getAuthenticated() {
-      return ResponseEntity.ok(authenticationService.getAuthenticated());
+  @SecurityRequirement(name = "bearer-authentication")
+  public ResponseEntity<AuthenticatedMeResponseDTO> getAuthenticated() {
+    return ResponseEntity.ok(authenticationService.getAuthenticated());
   }
 }
