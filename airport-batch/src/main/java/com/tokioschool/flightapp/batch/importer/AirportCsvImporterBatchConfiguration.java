@@ -38,6 +38,7 @@ public class AirportCsvImporterBatchConfiguration {
   private final EntityManagerFactory entityManagerFactory;
   private final JobRepository jobRepository;
   private final PlatformTransactionManager transactionManager;
+  private final AirportCsvImporterBatchListener airportCsvImporterBatchListener;
 
   @Bean
   public FlatFileItemReader<AirportCsv> airportCsvItemReader() {
@@ -52,6 +53,7 @@ public class AirportCsvImporterBatchConfiguration {
     DefaultLineMapper<AirportCsv> lineMapper = new DefaultLineMapper<>();
     DelimitedLineTokenizer lineTokenizer = new DelimitedLineTokenizer();
     lineTokenizer.setDelimiter(",");
+    lineTokenizer.setQuoteCharacter('"');
     lineTokenizer.setNames(AirportCsvMapper.AIRPORT_CSV_FILEDS);
 
     lineMapper.setFieldSetMapper(new AirportCsvMapper());
@@ -118,6 +120,7 @@ public class AirportCsvImporterBatchConfiguration {
   public Job importAirportCsvJob(Step importAirportCsvStep) {
     return new JobBuilder("import-airport-csv-job", jobRepository)
         .incrementer(new RunIdIncrementer())
+        .listener(airportCsvImporterBatchListener)
         .start(importAirportCsvStep)
         .build();
   }

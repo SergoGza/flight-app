@@ -13,49 +13,51 @@ import java.util.Optional;
 public class AirportCsvMapper implements FieldSetMapper<AirportCsv> {
 
   public static final String[] AIRPORT_CSV_FILEDS = {
-    "id",
-    "ident",
-    "type",
-    "name",
-    "latitude_deg",
-    "longitude_deg",
-    "elevation_ft",
-    "continent",
-    "iso_country",
-    "iso_region",
-    "municipality",
-    "scheduled_service",
-    "gps_code",
-    "iata_code",
-    "local_code",
-    "home_link",
-    "wikipediaLink",
-    "keywords"
+          "id",
+          "ident",
+          "type",
+          "name",
+          "latitude_deg",
+          "longitude_deg",
+          "elevation_ft",
+          "continent",
+          "iso_country",
+          "iso_region",
+          "municipality",
+          "scheduled_service",
+          "icao_code",
+          "iata_code",
+          "gps_code",
+          "local_code",
+          "home_link",
+          "wikipedia_link",
+          "keywords"
   };
 
   @Override
   public AirportCsv mapFieldSet(FieldSet fieldSet) throws BindException {
 
     return AirportCsv.builder()
-        .id(readLong(fieldSet.readString("id")))
-        .ident(readString(fieldSet.readString("ident")))
-        .type(readAirportType(fieldSet.readString("type")))
-        .name(readString(fieldSet.readString("name")))
-        .latitudeDeg(readBigDecimal(fieldSet.readString("latitude_deg")))
-        .longitudeDeg(readBigDecimal(fieldSet.readString("longitude_deg")))
-        .elevationFt(readInt(fieldSet.readString("elevation_ft")))
-        .continent(readString(fieldSet.readString("continent")))
-        .isoCountry(readString(fieldSet.readString("iso_country")))
-        .isoRegion(readString(fieldSet.readString("iso_region")))
-        .municipality(readString(fieldSet.readString("municipality")))
-        .scheduledService(readString(fieldSet.readString("scheduled_service")))
-        .gpsCode(readString(fieldSet.readString("gps_code")))
-        .iataCode(readString(fieldSet.readString("iata_code")))
-        .localCode(readString(fieldSet.readString("local_code")))
-        .homeLink(readString(fieldSet.readString("home_link")))
-        .wikipediaLink(readString(fieldSet.readString("wikipediaLink")))
-        .keywords(readListOfStrings(fieldSet.readString("keywords")))
-        .build();
+            .id(readLong(fieldSet.readString("id")))
+            .ident(readString(fieldSet.readString("ident")))
+            .type(readAirportType(fieldSet.readString("type")))
+            .name(readString(fieldSet.readString("name")))
+            .latitudeDeg(readBigDecimal(fieldSet.readString("latitude_deg")))
+            .longitudeDeg(readBigDecimal(fieldSet.readString("longitude_deg")))
+            .elevationFt(readInt(fieldSet.readString("elevation_ft")))
+            .continent(readString(fieldSet.readString("continent")))
+            .isoCountry(readString(fieldSet.readString("iso_country")))
+            .isoRegion(readString(fieldSet.readString("iso_region")))
+            .municipality(readString(fieldSet.readString("municipality")))
+            .scheduledService(readString(fieldSet.readString("scheduled_service")))
+            // icao_code no se mapea porque no existe en AirportCsv
+            .gpsCode(readString(fieldSet.readString("gps_code")))
+            .iataCode(readString(fieldSet.readString("iata_code")))
+            .localCode(readString(fieldSet.readString("local_code")))
+            .homeLink(readString(fieldSet.readString("home_link")))
+            .wikipediaLink(readString(fieldSet.readString("wikipedia_link")))
+            .keywords(readListOfStrings(fieldSet.readString("keywords")))
+            .build();
   }
 
   protected Integer readInt(String s) {
@@ -70,10 +72,22 @@ public class AirportCsvMapper implements FieldSetMapper<AirportCsv> {
     return StringUtils.trimToNull(s);
   }
 
+  /**
+   * Lee el tipo de aeropuerto. Si el tipo no está definido en el enum,
+   * devuelve null en lugar de lanzar una excepción.
+   * Esto permite procesar archivos con tipos de aeropuerto nuevos o desconocidos.
+   */
   protected AirportCsv.AirportType readAirportType(String s) {
-    return Optional.ofNullable(StringUtils.trimToNull(s))
-        .map(AirportCsv.AirportType::ofLabel)
-        .orElse(null);
+    String trimmed = StringUtils.trimToNull(s);
+    if (trimmed == null) {
+      return null;
+    }
+
+    // Intentar encontrar el tipo en el enum
+    return Arrays.stream(AirportCsv.AirportType.values())
+            .filter(airportType -> airportType.getLabel().equals(trimmed))
+            .findFirst()
+            .orElse(null); // Devolver null si no se encuentra, en lugar de lanzar excepción
   }
 
   protected BigDecimal readBigDecimal(String s) {
@@ -82,8 +96,8 @@ public class AirportCsvMapper implements FieldSetMapper<AirportCsv> {
 
   protected List<String> readListOfStrings(String s) {
     return Optional.ofNullable(StringUtils.trimToNull(s))
-        .map(commaSeparatedValues -> commaSeparatedValues.split(","))
-        .map(Arrays::asList)
-        .orElse(List.of());
+            .map(commaSeparatedValues -> commaSeparatedValues.split(","))
+            .map(Arrays::asList)
+            .orElse(List.of());
   }
 }
