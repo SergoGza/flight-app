@@ -72,22 +72,16 @@ public class AirportCsvMapper implements FieldSetMapper<AirportCsv> {
     return StringUtils.trimToNull(s);
   }
 
-  /**
-   * Lee el tipo de aeropuerto. Si el tipo no está definido en el enum,
-   * devuelve null en lugar de lanzar una excepción.
-   * Esto permite procesar archivos con tipos de aeropuerto nuevos o desconocidos.
-   */
   protected AirportCsv.AirportType readAirportType(String s) {
     String trimmed = StringUtils.trimToNull(s);
     if (trimmed == null) {
       return null;
     }
 
-    // Intentar encontrar el tipo en el enum
     return Arrays.stream(AirportCsv.AirportType.values())
             .filter(airportType -> airportType.getLabel().equals(trimmed))
             .findFirst()
-            .orElse(null); // Devolver null si no se encuentra, en lugar de lanzar excepción
+            .orElse(null);
   }
 
   protected BigDecimal readBigDecimal(String s) {

@@ -34,6 +34,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 @RequiredArgsConstructor
 @Slf4j
 public class AirportCsvImporterBatchConfiguration {
+
   private final AirportBatchConfigurationProperties airportBatchConfigurationProperties;
   private final EntityManagerFactory entityManagerFactory;
   private final JobRepository jobRepository;
