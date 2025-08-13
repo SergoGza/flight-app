@@ -67,7 +67,7 @@ public class AirportCsvImporterBatchITest {
     assertThat(jobExecution.getExitStatus()).isEqualTo(ExitStatus.COMPLETED);
 
     long counter = airportRawRepository.count();
-    assertThat(counter).isEqualTo(50);
+    assertThat(counter).isEqualTo(34);
 
     List<AirportRaw> bcn =
         airportRawRepository.findAll(

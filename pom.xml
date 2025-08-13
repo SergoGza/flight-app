@@ -16,6 +16,7 @@
         <module>flight-web</module>
         <module>file-store-api</module>
         <module>airport-batch</module>
+        <module>menu-service</module>
     </modules>
 
     <url/>
@@ -37,6 +38,7 @@
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <spring-boot-maven-plugin.version>3.2.2</spring-boot-maven-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -85,8 +87,22 @@
 
     </dependencies>
 
-
     <build>
+
+        <pluginManagement>
+
+            <plugins>
+                <plugin>
+
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring-boot-maven-plugin.version}</version>
+                </plugin>
+            </plugins>
+
+        </pluginManagement>
+
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -106,19 +122,6 @@
                             <version>1.18.30</version>
                         </path>
                     </annotationProcessorPaths>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>3.2.0</version>
-                <configuration>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
                 </configuration>
             </plugin>
         </plugins>
